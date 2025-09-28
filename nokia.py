@@ -1,6 +1,3 @@
-from unittest import case
-
-
 class PhoneBook:
     def menu(self):
         print("""
