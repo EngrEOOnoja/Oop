@@ -1,0 +1,58 @@
+import random
+from decimal import Decimal
+
+#must use seed so it stops the randomization.
+class Account:
+
+    def __init__(self, name, balance, phone):
+        self.name = name
+        #self._phone = None
+        self.phone = phone
+        self.balance = Decimal("0.00")
+        self.account_number = self.__generate_account_number()
+
+        #getter (the function name have to be the same).
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        if name == "":
+            raise ValueError("Name cannot be blank")
+        self._name = name
+
+    @property
+    def phone(self):
+        return self._phone
+
+    @phone.setter
+    def phone(self, value):
+        if len(value) != 11:
+            raise ValueError("Phone number must be 10 digits")
+        self._phone = value
+
+    @staticmethod
+    def __generate_account_number():
+        return "33" + str(random.randrange(10000000, 99999999))
+
+    def deposit(self, amount):
+        if amount < 0:
+            raise ValueError("Deposit cannot be negative")
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if amount < 0:
+            raise ValueError("Withdraw cannot be negative")
+        if amount > self.balance:
+            raise ValueError("Withdraw cannot be greater than balance")
+        self.balance -= amount
+
+
+    #(, thousand formatter just like the <> for tab)
+    def __str__(self):
+        return f"Account ({self.name} {self.account_number} {self.balance:,} {self.phone})"
+
+A = Account("shemma", 0, "09073838383")
+A.deposit(1000000)
+print(str(A))
